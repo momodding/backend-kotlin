@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration active="WARN" monitorInterval="30">
+
+	<Appenders>
+		<Console name="console">
+			<PatternLayout pattern="%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n"/>
+		</Console>
+
+		<RollingFile
+				name="rolling-date-time-info"
+				fileName="logs/app.info.log"
+				filePattern="logs/app.info.%d{yyyy-MM-dd}.%i.log"
+				ignoreExceptions="false">
+
+			<LevelRangeFilter minLevel="INFO" maxLevel="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+
+			<PatternLayout>
+				<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %m%n</Pattern>
+			</PatternLayout>
+
+			<Policies>
+				<OnStartupTriggeringPolicy/>
+				<SizeBasedTriggeringPolicy size="10 MB"/>
+				<TimeBasedTriggeringPolicy/>
+			</Policies>
+
+			<DefaultRolloverStrategy max="5"/>
+		</RollingFile>
+
+		<RollingFile
+				name="rolling-date-time-error"
+				fileName="logs/app.error.log"
+				filePattern="logs/app.error.%d{yyyy-MM-dd}.%i.log"
+				ignoreExceptions="false">
+
+			<LevelRangeFilter minLevel="ERROR" maxLevel="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+
+			<PatternLayout>
+				<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %logger{36} - %message{nolookups}%xThrowable \n</Pattern>
+			</PatternLayout>
+
+			<Policies>
+				<OnStartupTriggeringPolicy/>
+				<SizeBasedTriggeringPolicy size="10 MB"/>
+				<TimeBasedTriggeringPolicy/>
+			</Policies>
+
+			<DefaultRolloverStrategy max="5"/>
+		</RollingFile>
+	</Appenders>
+
+	<Loggers>
+		<Logger name="com.momodding.backend" additivity="false">
+			<AppenderRef ref="rolling-date-time-info"/>
+			<AppenderRef ref="rolling-date-time-error"/>
+		</Logger>
+
+		<Root level="INFO">
+			<AppenderRef ref="console"/>
+		</Root>
+	</Loggers>
+</Configuration>

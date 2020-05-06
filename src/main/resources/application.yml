@@ -1,0 +1,51 @@
+spring:
+  messages:
+    basename: message/messages
+
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
+
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: false
+
+  jpa:
+    properties:
+      hibernate:
+        order_inserts: true
+      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+      jdbc:
+        lob:
+        non_contextual_creation: true
+
+  datasource:
+    platform: mysql
+    url: jdbc:mariadb://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      minimumIdle: 1
+      maximumPoolSize: 2
+
+app:
+  jwt:
+    signingKey: c1834380e019897956cf9b6429d77a2f0cb102173d5d1ea40a21b390a65f18b5
+    expiration: 604800000
+    defaultPw: 12345678
+
+  security:
+    secret: abc123
+    expiration: 604800000
+    maxLoginAttemp: 10
+    hmacSecret: KvoiLoApRyPIgWRmDfiIQ3Gn9IYZJqhf
+
+server:
+  port: ${PORT}
+
+logging:
+  level:
+    org:
+      apache:
+        http: DEBUG
+      springframework:
+        web: DEBUG
