@@ -18,7 +18,10 @@ class WebSecurityConfig @Autowired constructor(
 ) : WebSecurityConfigurerAdapter() {
 
 	private val whitelistEndpoint = arrayOf(
-			"/v1/auth/**"
+			"/v1/auth/**",
+			"/graphiql**",
+			"/graphql**",
+			"/vendor/**"
 	)
 
 	override fun configure(http: HttpSecurity) {

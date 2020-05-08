@@ -1,0 +1,15 @@
+type Todos {
+    id: ID!
+    name: String!
+    description: String!
+}
+
+extend type Query {
+    getTodos : [Todos]
+}
+
+type Mutation {
+    newTodo(name: String!, description: String!) : Todos
+    updateTodo(id: ID!, name: String!, description: String!) : Todos
+    deleteTodo(id: ID!) : Boolean
+}

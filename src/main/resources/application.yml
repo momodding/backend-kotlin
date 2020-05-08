@@ -39,9 +39,6 @@ app:
     maxLoginAttemp: 10
     hmacSecret: KvoiLoApRyPIgWRmDfiIQ3Gn9IYZJqhf
 
-server:
-  port: ${PORT}
-
 logging:
   level:
     org:
