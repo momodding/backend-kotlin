@@ -19,6 +19,7 @@ class WebSecurityConfig @Autowired constructor(
 
 	private val whitelistEndpoint = arrayOf(
 			"/v1/auth/**",
+			"/actuator/**",
 			"/graphiql**",
 			"/graphql**",
 			"/vendor/**"

@@ -29,7 +29,7 @@ class JwtAuthFilter @Autowired constructor(
 
 		if (!accessToken.isNullOrBlank()) {
 			try {
-				email = jwtUtils!!.getEmailFromToken(accessToken)
+				email = jwtUtils.getEmailFromToken(accessToken)
 			} catch (e: IllegalArgumentException) {
 				logger.error("an error occured during getting credential from token")
 
@@ -43,7 +43,7 @@ class JwtAuthFilter @Autowired constructor(
 		}
 
 		if (!email.isNullOrBlank()) {
-			val creds = email?.let { userCredentialService!!.findUserByEmail(it) }
+			val creds = email.let { userCredentialService.findUserByEmail(it) }
 			if (Optional.ofNullable(creds).isPresent) {
 				val authentication = UsernamePasswordAuthenticationToken(userCredentialService,
 						null, mutableListOf(SimpleGrantedAuthority(creds?.role.toString())))

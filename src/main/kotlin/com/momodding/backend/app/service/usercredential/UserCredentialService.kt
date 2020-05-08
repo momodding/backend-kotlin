@@ -5,7 +5,7 @@ import com.momodding.backend.app.dto.request.RegisterRequest
 import com.momodding.backend.app.entity.UserCredential
 
 interface UserCredentialService {
-	fun findUserByEmail(email: String) : UserCredential
+	fun findUserByEmail(email: String) : UserCredential?
 
 	fun saveOrUpdate(data: UserCredential) : UserCredential
 

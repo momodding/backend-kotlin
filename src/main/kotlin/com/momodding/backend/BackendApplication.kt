@@ -5,6 +5,7 @@ import io.github.cdimascio.dotenv.dotenv
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.boot.runApplication
 import org.springframework.core.env.MapPropertySource
 import org.springframework.core.env.MutablePropertySources
 import org.springframework.core.env.StandardEnvironment
@@ -16,13 +17,17 @@ class BackendApplication
 fun main(args: Array<String>) {
 	val dotenv = dotenv().entries().associateByTo(hashMapOf(), {it.key}, {it.value}).toMap()
 
-	SpringApplicationBuilder(BackendApplication::class.java)
-			.environment(object : StandardEnvironment() {
-				override fun customizePropertySources(propertySources: MutablePropertySources) {
-					super.customizePropertySources(propertySources)
-					propertySources.addLast(MapPropertySource("dotenvProperties", dotenv))
-				}
-			})
-			.run(*args)
-//	runApplication<BackendApplication>(*args)
+	when {
+		dotenv.isNullOrEmpty() -> runApplication<BackendApplication>(*args)
+		else -> {
+			SpringApplicationBuilder(BackendApplication::class.java)
+					.environment(object : StandardEnvironment() {
+						override fun customizePropertySources(propertySources: MutablePropertySources) {
+							super.customizePropertySources(propertySources)
+							propertySources.addLast(MapPropertySource("dotenvProperties", dotenv))
+						}
+					})
+					.run(*args)
+		}
+	}
 }

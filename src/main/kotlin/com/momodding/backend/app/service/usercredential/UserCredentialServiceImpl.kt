@@ -20,8 +20,8 @@ class UserCredentialServiceImpl @Autowired constructor(
 		val userCredentialRepository: UserCredentialRepository,
 		val jwtUtils: JwtUtils
 ) : UserCredentialService {
-	override fun findUserByEmail(email: String): UserCredential {
-		return userCredentialRepository.findByEmail(email).orElse(null)
+	override fun findUserByEmail(email: String): UserCredential? {
+		return userCredentialRepository.findByEmail(email)?.orElse(null)
 	}
 
 	override fun saveOrUpdate(data: UserCredential): UserCredential {
