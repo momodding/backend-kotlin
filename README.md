@@ -1,15 +1,12 @@
 ## Description
 
-Spring Boot framework Kotlin implementation repository.
+Spring Boot framework with Kotlin language. Also implemented JWT auth and graphQL
 
 ## Installation
 
 ```bash
-$ change value in .env
+$ Use jdk 8 and maven
+$ change value in .env files
+$ Run using intellij
 ```
 
-```Docker mysql
-$ docker run -d -p 3306:3306 --name=mysql-server --env="MYSQL_ROOT_PASSWORD=password" --env="MYSQL_PASSWORD=password" --expose=3306 mysql:5.7
-
-import sql inside dump_sql folder
-```
