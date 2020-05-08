@@ -18,7 +18,7 @@ class JwtUtils(
 ) : Serializable {
 
 	fun getLoginId(http: HttpServletRequest): Long? =
-			getClaimFromToken(http, Function { it.toObject().loginId })
+			getClaimFromToken(http, Function { it.toObject().ucId })
 
 	fun getEmailFromToken(token: String): String? =
 		getClaimFromToken(token, Function { it.subject })

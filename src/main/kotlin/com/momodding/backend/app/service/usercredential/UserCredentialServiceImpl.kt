@@ -52,7 +52,7 @@ class UserCredentialServiceImpl @Autowired constructor(
 
 				val tokenPayload = creds.get().id?.let {
 					TokenPayload(
-							loginId = it,
+							ucId = it,
 							email = creds.get().email?: "",
 							userRole = creds.get().role,
 							issuedAt = Date().time
@@ -82,7 +82,7 @@ class UserCredentialServiceImpl @Autowired constructor(
 		val save = userCredentialRepository.saveAndFlush(data)
 		val tokenPayload = save.id?.let {
 			TokenPayload(
-					loginId = it,
+					ucId = it,
 					email = save.email?: "",
 					userRole = save.role,
 					issuedAt = Date().time

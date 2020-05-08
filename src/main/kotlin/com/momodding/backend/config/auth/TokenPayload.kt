@@ -3,7 +3,7 @@ package com.momodding.backend.config.auth
 import io.jsonwebtoken.Claims
 
 data class TokenPayload(
-    var loginId: Long,
+    var ucId: Long,
     var email: String,
     var userRole: Long? = null,
     var issuedAt: Long
@@ -11,7 +11,7 @@ data class TokenPayload(
 
 fun TokenPayload.toMap(): Map<String, Any> {
     val map = mutableMapOf<String, Any>(
-        "loginId" to this.loginId,
+        "ucId" to this.ucId,
         "email" to this.email,
         "issuedAt" to this.issuedAt
     )
@@ -23,7 +23,7 @@ fun TokenPayload.toMap(): Map<String, Any> {
 
 fun Claims.toObject(): TokenPayload {
     val tokenPayload = TokenPayload(
-        loginId = (this["loginId"] as Int).toLong(),
+            ucId = (this["ucId"] as Int).toLong(),
         email = this["email"] as String,
         issuedAt = this["issuedAt"] as Long
     )

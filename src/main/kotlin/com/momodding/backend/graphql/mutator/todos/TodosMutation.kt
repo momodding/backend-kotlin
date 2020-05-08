@@ -20,7 +20,7 @@ class TodosMutation constructor(
 		val data = Todos(
 				name = name,
 				description = description,
-				ucId = ctx.getTokenPayload().loginId
+				ucId = ctx.getTokenPayload().ucId
 		)
 
 		return todosRepository.saveAndFlush(data)

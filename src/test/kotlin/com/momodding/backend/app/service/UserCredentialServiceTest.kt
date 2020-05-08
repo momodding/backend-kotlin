@@ -15,6 +15,7 @@ import org.mockito.BDDMockito.given
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
+import org.springframework.context.annotation.Description
 import java.util.*
 
 @RunWith(MockitoJUnitRunner::class)
@@ -35,6 +36,7 @@ class UserCredentialServiceTest {
 	}
 
 	@Test
+	@Description("login user using email and password")
 	fun shouldSuccessLogin() {
 		val user = UserCredential(
 				username = "user",
