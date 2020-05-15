@@ -2,7 +2,9 @@ package com.momodding.backend.app.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.SQLDelete
 import org.hibernate.annotations.UpdateTimestamp
+import org.hibernate.annotations.Where
 import java.util.*
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -13,6 +15,8 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "user_todo")
+@Where(clause = "ut_deleted_at is not null")
+@SQLDelete(sql = "UPDATE user_todo SET ut_deleted_at = now() WHERE ut_id = ?")
 data class Todos (
 		@Id
 		@Column(name = "ut_id")

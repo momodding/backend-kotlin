@@ -35,7 +35,8 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
 
 		val metaResponse = MetaResponse(
 				code = HttpStatus.UNPROCESSABLE_ENTITY.value(),
-				message = jacksonObjectMapper().writeValueAsString(errors)
+				message = "Mandatory Params is not fullfilled, see doc for any of mandatory params required!",
+				debugInfo = jacksonObjectMapper().writeValueAsString(errors)
 		)
 
 		val resultResponse = ResultResponse(

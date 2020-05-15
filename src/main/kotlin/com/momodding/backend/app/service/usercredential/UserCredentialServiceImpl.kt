@@ -50,19 +50,17 @@ class UserCredentialServiceImpl @Autowired constructor(
 			else -> {
 				validatePreLogin(creds = creds.get(), req = req)
 
-				val tokenPayload = creds.get().id?.let {
-					TokenPayload(
-							ucId = it,
-							email = creds.get().email?: "",
-							userRole = creds.get().role,
-							issuedAt = Date().time
-					)
-				}
+				val tokenPayload = TokenPayload(
+						ucId = creds.get().id!!,
+						email = creds.get().email?: "",
+						userRole = creds.get().role,
+						issuedAt = Date().time
+				)
 
 				//TODO [UTSMAN] create proper response
 				val response = HashMap<String, Any>()
-				tokenPayload?.let { jwtUtils.generateToken(it) }?.let { response.put("accessToken", it) }
-				response.put("credentials", creds.get())
+				response["accessToken"] = jwtUtils.generateToken(tokenPayload)
+				response["credentials"] = creds.get()
 
 				return response
 			}
@@ -91,7 +89,7 @@ class UserCredentialServiceImpl @Autowired constructor(
 
 		val response = HashMap<String, Any>()
 		tokenPayload?.let { jwtUtils.generateToken(it) }?.let { response.put("accessToken", it) }
-		response.put("credentials", save)
+		response["credentials"] = save
 
 		return response
 	}
@@ -101,7 +99,7 @@ class UserCredentialServiceImpl @Autowired constructor(
 			creds.loginAttempt?.let { updateLoginAttempt(data = creds, attempt = it+1) }
 			throw UnauthorizedException("status not active")
 		}
-		if (creds.loginAttempt!!.compareTo(3L) > 1) {
+		if (creds.loginAttempt!! > 3L) {
 			updateStatus(data = creds, userStatus = "N")
 			throw UnauthorizedException("max login attempt reached")
 		}

@@ -23,7 +23,7 @@ fun TokenPayload.toMap(): Map<String, Any> {
 
 fun Claims.toObject(): TokenPayload {
     val tokenPayload = TokenPayload(
-            ucId = (this["ucId"] as Int).toLong(),
+        ucId = (this["ucId"] as Int).toLong(),
         email = this["email"] as String,
         issuedAt = this["issuedAt"] as Long
     )
