@@ -8,6 +8,7 @@ import com.momodding.backend.utils.generateResponse
 import id.investree.app.config.base.BaseController
 import id.investree.app.config.base.ResultResponse
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.ApplicationContext
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.Errors
@@ -21,11 +22,13 @@ import javax.validation.Valid
 @RequestMapping(value = ["v1/auth"], produces = [MediaType.APPLICATION_JSON_VALUE])
 class AuthController @Autowired constructor(
 		val userCredentialService: UserCredentialService,
-		val authValidation: AuthValidation
+		val authValidation: AuthValidation,
+		val applicationContext: ApplicationContext
 ) : BaseController() {
 
 	@PostMapping("login")
 	fun login (@Valid @RequestBody req: LoginRequest, error: Errors) : ResponseEntity<ResultResponse<Any>> {
+//		System.out.println(applicationContext.environment.getProperty("DB_HOST"))
 		authValidation.validateLogin(req, error)
 		if (error.hasErrors()) throw FormValidationException(error.generateResponse())
 		return generateResponse(userCredentialService.doLogin(req)).done("Login sukses")

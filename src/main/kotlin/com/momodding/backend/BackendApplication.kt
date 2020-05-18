@@ -24,7 +24,8 @@ fun main(args: Array<String>) {
 					.environment(object : StandardEnvironment() {
 						override fun customizePropertySources(propertySources: MutablePropertySources) {
 							super.customizePropertySources(propertySources)
-							propertySources.addLast(MapPropertySource("dotenvProperties", dotenv))
+							propertySources.addLast(MapPropertySource("dotenvProps", dotenv))
+							System.out.println(propertySources.get("dotenvProps"))
 						}
 					})
 					.run(*args)
