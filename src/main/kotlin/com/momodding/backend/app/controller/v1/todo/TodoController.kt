@@ -1,7 +1,7 @@
 package com.momodding.backend.app.controller.v1.todo
 
 import com.momodding.backend.app.dto.request.TodoRequest
-import com.momodding.backend.app.service.todo.TodosService
+import com.momodding.backend.app.service.todos.TodosService
 import com.momodding.backend.exception.FormValidationException
 import com.momodding.backend.utils.generateResponse
 import id.investree.app.config.base.BaseController

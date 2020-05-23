@@ -11,18 +11,17 @@ import com.momodding.backend.exception.UnauthorizedException
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.notNullValue
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.BDDMockito.given
+import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.mockito.MockitoAnnotations
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.context.annotation.Description
 import java.util.*
 
-@RunWith(MockitoJUnitRunner::class)
+@ExtendWith(MockitoExtension::class)
 class UserCredentialServiceTest {
 
 	@Mock
@@ -31,13 +30,14 @@ class UserCredentialServiceTest {
 	@Mock
 	lateinit var jwtUtils: JwtUtils
 
+	@InjectMocks
 	lateinit var userCredentialServiceImpl: UserCredentialServiceImpl
 
-	@Before
-	fun setUp() {
-		MockitoAnnotations.initMocks(this)
-		userCredentialServiceImpl = UserCredentialServiceImpl(userCredentialRepository, jwtUtils)
-	}
+//	@Before
+//	fun setUp() {
+//		MockitoAnnotations.initMocks(this)
+//		userCredentialServiceImpl = UserCredentialServiceImpl(userCredentialRepository, jwtUtils)
+//	}
 
 	@Test
 	@Description("login user using email and password")
@@ -143,7 +143,6 @@ class UserCredentialServiceTest {
 	@Description("register user using email and password")
 	fun shouldSuccess_doRegister() {
 		val user = UserCredential(
-				id = 1,
 				username = "user",
 				password = "password",
 				email = "something@mail.com",
@@ -158,7 +157,7 @@ class UserCredentialServiceTest {
 				role = 1
 		)
 		given(userCredentialRepository.findByEmail(request.email)).willReturn(null)
-		given(userCredentialRepository.saveAndFlush(user)).willAnswer{ invocationOnMock -> invocationOnMock.getArgument(0) }
+		given(userCredentialRepository.saveAndFlush(user)).willReturn(user)
 
 		val doRegister = userCredentialServiceImpl.doRegister(request)
 

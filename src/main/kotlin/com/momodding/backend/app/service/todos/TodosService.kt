@@ -1,4 +1,4 @@
-package com.momodding.backend.app.service.todo
+package com.momodding.backend.app.service.todos
 
 import com.momodding.backend.app.dto.request.TodoRequest
 import com.momodding.backend.app.entity.Todos
