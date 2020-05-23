@@ -6,6 +6,7 @@ import com.momodding.backend.app.controller.v1.auth.AuthValidation
 import com.momodding.backend.app.dto.request.LoginRequest
 import com.momodding.backend.app.entity.UserCredential
 import com.momodding.backend.app.service.usercredential.UserCredentialService
+import org.hamcrest.CoreMatchers.`is`
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.ComponentScan
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
@@ -88,5 +90,6 @@ class AuthControllerTest {
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
 				.content(jacksonObjectMapper().writeValueAsBytes(request)))
 				.andExpect(status().isOk)
+				.andExpect(jsonPath("$.data.accessToken", `is`(response["accessToken"])))
 	}
 }
