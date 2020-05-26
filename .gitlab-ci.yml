@@ -29,8 +29,8 @@ deploy_dev:
     - gem install dpl
     - dpl --provider=heroku --app=vel-ci-api-dev --api-key=$HEROKU_API_KEY
   environment:
-  name: dev
-  url: https://$HEROKU_APP_NAME.herokuapp.com
+  #  name: dev
+  #  url: https://$HEROKU_APP_NAME.herokuapp.com
   only:
     - master
   tags:
