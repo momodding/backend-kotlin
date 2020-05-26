@@ -40,11 +40,10 @@ deploy_dev:
   stage: deploy
   image: ubuntu:latest
   script:
+    - add-apt-repository --yes ppa:rpardini/adoptopenjdk
     - apt-get update -qy
     - apt-get install wget -y
-    - wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add -
-    - add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
-    - apt-get install -y adoptopenjdk-12-hotspot
+    - apt-get install -y adoptopenjdk-12-installer
     - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
     - heroku plugins:install heroku-cli-deploy
     - heroku deploy:jar target/*.jar --app=$HEROKU_APP_NAME --api-key=$HEROKU_API_KEY
