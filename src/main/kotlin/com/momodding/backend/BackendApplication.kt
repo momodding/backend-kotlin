@@ -15,20 +15,18 @@ import org.springframework.core.env.StandardEnvironment
 class BackendApplication
 
 fun main(args: Array<String>) {
-	val dotenv = dotenv().entries().associateByTo(hashMapOf(), {it.key}, {it.value}).toMap()
-
-	when {
-		dotenv.isNullOrEmpty() -> runApplication<BackendApplication>(*args)
-		else -> {
-			SpringApplicationBuilder(BackendApplication::class.java)
-					.environment(object : StandardEnvironment() {
-						override fun customizePropertySources(propertySources: MutablePropertySources) {
-							super.customizePropertySources(propertySources)
-							propertySources.addLast(MapPropertySource("dotenvProps", dotenv))
-							System.out.println(propertySources.get("dotenvProps"))
-						}
-					})
-					.run(*args)
-		}
+	try {
+		val dotenv = dotenv().entries().associateByTo(hashMapOf(), { it.key }, { it.value }).toMap()
+		SpringApplicationBuilder(BackendApplication::class.java)
+				.environment(object : StandardEnvironment() {
+					override fun customizePropertySources(propertySources: MutablePropertySources) {
+						super.customizePropertySources(propertySources)
+						propertySources.addLast(MapPropertySource("dotenvProps", dotenv))
+						System.out.println(propertySources.get("dotenvProps"))
+					}
+				})
+				.run(*args)
+	} catch (ex: Exception) {
+		runApplication<BackendApplication>(*args)
 	}
 }
