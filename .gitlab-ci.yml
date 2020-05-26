@@ -40,9 +40,9 @@ deploy_dev:
   stage: deploy
   image: ubuntu:latest
   script:
-    - add-apt-repository --yes ppa:rpardini/adoptopenjdk
     - apt-get update -qy
-    - apt-get install wget -y
+    - apt-get install wget software-properties-common -y
+    - add-apt-repository --yes ppa:rpardini/adoptopenjdk
     - apt-get install -y adoptopenjdk-12-installer
     - wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
     - heroku plugins:install heroku-cli-deploy
