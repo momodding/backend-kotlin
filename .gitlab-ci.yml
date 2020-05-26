@@ -49,5 +49,3 @@ deploy_dev:
   #  url: https://$HEROKU_APP_NAME.herokuapp.com
   only:
     - master
-  tags:
-    - docker
