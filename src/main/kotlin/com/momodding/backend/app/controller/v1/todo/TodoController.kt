@@ -38,8 +38,8 @@ class TodoController @Autowired constructor(
 				error: Errors, http: HttpServletRequest): ResponseEntity<ResultResponse<Any>> {
 		todoValidation.validateCreate(req, error)
 		if (error.hasErrors()) throw FormValidationException(error.generateResponse())
-		todosService.doSave(req = req, http = http)
-		return generateResponse(req).done("success")
+		val createResult = todosService.doSave(req = req, http = http)
+		return generateResponse(createResult).done("success")
 	}
 
 	@PutMapping("/{todoId}")
@@ -51,7 +51,7 @@ class TodoController @Autowired constructor(
 
 	@DeleteMapping("/{todoId}")
 	fun todoDelete(@PathVariable("todoId") todoId: Long): ResponseEntity<ResultResponse<Any>> {
-		todosService.doDelete(id = todoId)
-		return generateResponse(todoId).done("success")
+		val deleteResult = todosService.doDelete(id = todoId)
+		return generateResponse(deleteResult).done("success")
 	}
 }
