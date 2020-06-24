@@ -45,8 +45,6 @@ class TodoController @Autowired constructor(
 	@PutMapping("/{todoId}")
 	fun todoUpdate(@PathVariable("todoId") todoId: Long, @Valid @RequestBody req: TodoRequest,
 				   error: Errors, http: HttpServletRequest): ResponseEntity<ResultResponse<Any>> {
-		todoValidation.validateUpdate(req, error)
-		if (error.hasErrors()) throw FormValidationException(error.generateResponse())
 		val updateResult = todosService.doUpdate(id = todoId, req = req)
 		return generateResponse(updateResult).done("success")
 	}
