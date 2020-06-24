@@ -6,8 +6,6 @@ import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 
 data class TodoRequest (
-		val todoId: Long?,
-
 		@JsonProperty(value = "name")
 		@field:NotNull
 		@field:NotBlank
