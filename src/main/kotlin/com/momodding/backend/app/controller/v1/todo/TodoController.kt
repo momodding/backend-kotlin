@@ -2,8 +2,10 @@ package com.momodding.backend.app.controller.v1.todo
 
 import com.momodding.backend.app.dto.request.TodoRequest
 import com.momodding.backend.app.service.todos.TodosService
+import com.momodding.backend.exception.AppException
 import com.momodding.backend.exception.FormValidationException
 import com.momodding.backend.utils.generateResponse
+import com.momodding.backend.utils.isNotNull
 import id.investree.app.config.base.BaseController
 import id.investree.app.config.base.ResultResponse
 import org.springframework.beans.factory.annotation.Autowired
@@ -38,8 +40,11 @@ class TodoController @Autowired constructor(
 				error: Errors, http: HttpServletRequest): ResponseEntity<ResultResponse<Any>> {
 		todoValidation.validateCreate(req, error)
 		if (error.hasErrors()) throw FormValidationException(error.generateResponse())
-		todosService.doSave(req = req, http = http)
-		return generateResponse(req).done("success")
+		val createResult = todosService.doSave(req = req, http = http)
+		when {
+			!createResult.id.isNotNull() -> throw AppException("create todo failed")
+			else -> return generateResponse(createResult).done("success")
+		}
 	}
 
 	@PutMapping("/{todoId}")
@@ -51,7 +56,7 @@ class TodoController @Autowired constructor(
 
 	@DeleteMapping("/{todoId}")
 	fun todoDelete(@PathVariable("todoId") todoId: Long): ResponseEntity<ResultResponse<Any>> {
-		todosService.doDelete(id = todoId)
-		return generateResponse(todoId).done("success")
+		val deleteResult = todosService.doDelete(id = todoId)
+		return generateResponse(deleteResult).done("success")
 	}
 }
