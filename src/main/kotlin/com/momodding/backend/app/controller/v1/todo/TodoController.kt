@@ -2,8 +2,10 @@ package com.momodding.backend.app.controller.v1.todo
 
 import com.momodding.backend.app.dto.request.TodoRequest
 import com.momodding.backend.app.service.todos.TodosService
+import com.momodding.backend.exception.AppException
 import com.momodding.backend.exception.FormValidationException
 import com.momodding.backend.utils.generateResponse
+import com.momodding.backend.utils.isNotNull
 import id.investree.app.config.base.BaseController
 import id.investree.app.config.base.ResultResponse
 import org.springframework.beans.factory.annotation.Autowired
@@ -39,7 +41,10 @@ class TodoController @Autowired constructor(
 		todoValidation.validateCreate(req, error)
 		if (error.hasErrors()) throw FormValidationException(error.generateResponse())
 		val createResult = todosService.doSave(req = req, http = http)
-		return generateResponse(createResult).done("success")
+		when {
+			!createResult.id.isNotNull() -> throw AppException("create todo failed")
+			else -> return generateResponse(createResult).done("success")
+		}
 	}
 
 	@PutMapping("/{todoId}")
