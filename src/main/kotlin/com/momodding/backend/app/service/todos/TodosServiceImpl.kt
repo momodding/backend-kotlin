@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
 import javax.servlet.http.HttpServletRequest
+import javax.transaction.Transactional
 
 @Service
 class TodosServiceImpl @Autowired constructor(
@@ -23,18 +24,20 @@ class TodosServiceImpl @Autowired constructor(
 		return todosRepository.findById(id).orElse(null)
 	}
 
+	@Transactional
 	override fun doSave(req: TodoRequest, http: HttpServletRequest): Todos {
 		val data = Todos(
-			ucId = jwtUtils.getLoginId(http),
-			name = req.name,
-			description = req.description
+				ucId = jwtUtils.getLoginId(http),
+				name = req.name,
+				description = req.description
 		)
 
 		return todosRepository.saveAndFlush(data)
 	}
 
+	@Transactional
 	override fun doUpdate(id: Long, req: TodoRequest): Todos {
-		val data = todosRepository.findById(id).orElseThrow{ throw DataNotFoundException("todo") }
+		val data = todosRepository.findById(id).orElseThrow { throw DataNotFoundException("todo") }
 		data.apply {
 			name = req.name;
 			description = req.description
@@ -42,8 +45,9 @@ class TodosServiceImpl @Autowired constructor(
 		return todosRepository.saveAndFlush(data)
 	}
 
+	@Transactional
 	override fun doDelete(id: Long): Todos {
-		val data = todosRepository.findById(id).orElseThrow{ throw DataNotFoundException("todo") }
+		val data = todosRepository.findById(id).orElseThrow { throw DataNotFoundException("todo") }
 		data.deletedAt = Date()
 		return todosRepository.saveAndFlush(data)
 	}
