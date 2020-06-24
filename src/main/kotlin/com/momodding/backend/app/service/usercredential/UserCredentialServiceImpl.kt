@@ -2,6 +2,7 @@ package com.momodding.backend.app.service.usercredential
 
 import com.momodding.backend.app.dto.request.LoginRequest
 import com.momodding.backend.app.dto.request.RegisterRequest
+import com.momodding.backend.app.dto.response.AuthResponse
 import com.momodding.backend.app.entity.UserCredential
 import com.momodding.backend.app.repository.UserCredentialRepository
 import com.momodding.backend.config.auth.JwtUtils
@@ -13,7 +14,6 @@ import com.momodding.backend.utils.isNotNull
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
-import kotlin.collections.HashMap
 
 @Service
 class UserCredentialServiceImpl @Autowired constructor(
@@ -52,17 +52,17 @@ class UserCredentialServiceImpl @Autowired constructor(
 
 				val tokenPayload = TokenPayload(
 						ucId = creds.get().id!!,
-						email = creds.get().email?: "",
+						email = creds.get().email ?: "",
 						userRole = creds.get().role,
 						issuedAt = Date().time
 				)
 
-				//TODO [UTSMAN] create proper response
-				val response = HashMap<String, Any>()
-				response["accessToken"] = jwtUtils.generateToken(tokenPayload)
-				response["credentials"] = creds.get()
-
-				return response
+				return AuthResponse(
+						accessToken = jwtUtils.generateToken(tokenPayload),
+						username = creds.get().username,
+						email = creds.get().email,
+						role = creds.get().role
+				)
 			}
 		}
 	}
@@ -81,17 +81,18 @@ class UserCredentialServiceImpl @Autowired constructor(
 		val tokenPayload = save.id?.let {
 			TokenPayload(
 					ucId = it,
-					email = save.email?: "",
+					email = save.email ?: "",
 					userRole = save.role,
 					issuedAt = Date().time
 			)
 		}
 
-		val response = HashMap<String, Any>()
-		tokenPayload?.let { jwtUtils.generateToken(it) }?.let { response.put("accessToken", it) }
-		response["credentials"] = save
-
-		return response
+		return AuthResponse(
+				accessToken = tokenPayload?.let { jwtUtils.generateToken(it) },
+				username = save.username,
+				email = save.email,
+				role = save.role
+		)
 	}
 
 	private fun validatePreLogin(creds: UserCredential, req: LoginRequest) {
