@@ -51,4 +51,12 @@ class TodosServiceImpl @Autowired constructor(
 		data.deletedAt = Date()
 		return todosRepository.saveAndFlush(data)
 	}
+
+	@Transactional
+	override fun deletById(id: Long) {
+		when (todosRepository.findById(id)) {
+			null -> throw DataNotFoundException("todo")
+			else -> todosRepository.deleteById(id)
+		}
+	}
 }

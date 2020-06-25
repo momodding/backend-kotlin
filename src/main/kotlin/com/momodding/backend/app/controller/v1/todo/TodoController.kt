@@ -56,7 +56,7 @@ class TodoController @Autowired constructor(
 
 	@DeleteMapping("/{todoId}")
 	fun todoDelete(@PathVariable("todoId") todoId: Long): ResponseEntity<ResultResponse<Any>> {
-		val deleteResult = todosService.doDelete(id = todoId)
+		val deleteResult = todosService.deletById(id = todoId)
 		return generateResponse(deleteResult).done("success")
 	}
 }

@@ -5,13 +5,15 @@ import com.momodding.backend.app.entity.Todos
 import javax.servlet.http.HttpServletRequest
 
 interface TodosService {
-	fun findAll() : List<Todos>
+	fun findAll(): List<Todos>
 
-	fun findById(id: Long) : Todos
+	fun findById(id: Long): Todos
 
 	fun doSave(req: TodoRequest, http: HttpServletRequest): Todos
 
 	fun doUpdate(id: Long, req: TodoRequest): Todos
 
 	fun doDelete(id: Long): Any
+
+	fun deletById(id: Long): Any
 }
