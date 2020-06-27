@@ -2,6 +2,11 @@ spring:
   messages:
     basename: message/messages
 
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
+
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
 
@@ -30,7 +35,8 @@ spring:
 app:
   jwt:
     signingKey: c1834380e019897956cf9b6429d77a2f0cb102173d5d1ea40a21b390a65f18b5
-    expiration: 604800000
+    expiration: 3600000
+    refresh: 28800000
     defaultPw: 12345678
 
   security:
