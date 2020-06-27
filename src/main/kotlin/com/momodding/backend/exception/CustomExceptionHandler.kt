@@ -5,6 +5,7 @@ import com.momodding.backend.app.dto.validation.ErrorValidation
 import id.investree.app.config.base.AbstractResponseHandler
 import id.investree.app.config.base.MetaResponse
 import id.investree.app.config.base.ResultResponse
+import io.jsonwebtoken.security.SignatureException
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -90,6 +91,9 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
 
 	@ExceptionHandler(UnauthorizedException::class)
 	fun unauthorizedException(ex: UnauthorizedException) = throwException(ex, HttpStatus.UNAUTHORIZED)
+
+	@ExceptionHandler(SignatureException::class)
+	fun jwtSignatureException(ex: SignatureException) = throwException(ex, HttpStatus.UNAUTHORIZED)
 
 	@ExceptionHandler(FormValidationException::class)
 	fun formValidationException(ex: FormValidationException) = throwException(ex, HttpStatus.UNPROCESSABLE_ENTITY)
