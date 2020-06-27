@@ -13,6 +13,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.context.request.WebRequest
+import org.springframework.web.servlet.NoHandlerFoundException
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 import java.util.stream.Collectors
 
@@ -64,8 +65,28 @@ class CustomExceptionHandler : ResponseEntityExceptionHandler() {
 		return ResponseEntity(resultResponse, HttpStatus.BAD_REQUEST)
 	}
 
+	override fun handleNoHandlerFoundException(ex: NoHandlerFoundException,
+											   headers: HttpHeaders,
+											   status: HttpStatus,
+											   request: WebRequest): ResponseEntity<Any> {
+		val metaResponse = MetaResponse(
+				code = HttpStatus.NOT_FOUND.value(),
+				message = ex.localizedMessage
+		)
+
+		val resultResponse = ResultResponse(
+				status = "ERROR",
+				data = null,
+				meta = metaResponse
+		)
+		return ResponseEntity(resultResponse, HttpStatus.NOT_FOUND)
+	}
+
+	@ExceptionHandler(NoSuchElementException::class)
+	fun noSuchElementException(ex: NoSuchElementException) = throwException(ex, HttpStatus.INTERNAL_SERVER_ERROR)
+
 	@ExceptionHandler(AppException::class)
-	fun appException(ex: AppException) = throwException(ex, HttpStatus.INTERNAL_SERVER_ERROR)
+	fun appException(ex: AppException) = throwException(ex, HttpStatus.BAD_REQUEST)
 
 	@ExceptionHandler(UnauthorizedException::class)
 	fun unauthorizedException(ex: UnauthorizedException) = throwException(ex, HttpStatus.UNAUTHORIZED)
