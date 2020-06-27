@@ -12,6 +12,7 @@ data class AppProperties(
 
 data class JwtProperties(
 		var expiration: Long,
+		var refresh: Long,
 		var signingKey: String
 )
 
