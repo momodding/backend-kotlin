@@ -4,22 +4,32 @@ import com.momodding.backend.app.dto.request.LoginRequest
 import com.momodding.backend.app.dto.request.RegisterRequest
 import com.momodding.backend.app.dto.response.AuthResponse
 import com.momodding.backend.app.entity.UserCredential
+import com.momodding.backend.app.entity.UserToken
 import com.momodding.backend.app.repository.UserCredentialRepository
+import com.momodding.backend.app.repository.UserTokenRepository
 import com.momodding.backend.config.auth.JwtUtils
 import com.momodding.backend.config.auth.TokenPayload
 import com.momodding.backend.exception.AppException
 import com.momodding.backend.exception.DataNotFoundException
 import com.momodding.backend.exception.UnauthorizedException
+import com.momodding.backend.utils.AppProperties
 import com.momodding.backend.utils.isNotNull
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
 class UserCredentialServiceImpl @Autowired constructor(
 		val userCredentialRepository: UserCredentialRepository,
-		val jwtUtils: JwtUtils
+		val userTokenRepository: UserTokenRepository,
+		val jwtUtils: JwtUtils,
+		val appProperties: AppProperties
 ) : UserCredentialService {
+	override fun findUserById(id: Long): UserCredential? {
+		return userCredentialRepository.findById(id).orElse(null)
+	}
+
 	override fun findUserByEmail(email: String): UserCredential? {
 		return userCredentialRepository.findByEmail(email)?.orElse(null)
 	}
@@ -57,12 +67,22 @@ class UserCredentialServiceImpl @Autowired constructor(
 						issuedAt = Date().time
 				)
 
-				return AuthResponse(
-						accessToken = jwtUtils.generateToken(tokenPayload),
-						username = creds.get().username,
-						email = creds.get().email,
-						role = creds.get().role
-				)
+				val userToken = userTokenRepository.saveAndFlush(UserToken(
+						ucId = creds.get().id,
+						refreshToken = BCryptPasswordEncoder().encode(tokenPayload.toString()),
+						expiredIn = Date(System.currentTimeMillis() + appProperties.jwt.refresh)
+				))
+
+				when (userToken) {
+					null -> throw AppException("login failed")
+					else -> return AuthResponse(
+							accessToken = jwtUtils.generateToken(tokenPayload),
+							username = creds.get().username,
+							email = creds.get().email,
+							role = creds.get().role,
+							refreshToken = userToken.refreshToken
+					)
+				}
 			}
 		}
 	}
@@ -87,12 +107,22 @@ class UserCredentialServiceImpl @Autowired constructor(
 			)
 		}
 
-		return AuthResponse(
-				accessToken = tokenPayload?.let { jwtUtils.generateToken(it) },
-				username = save.username,
-				email = save.email,
-				role = save.role
-		)
+		val userToken = userTokenRepository.saveAndFlush(UserToken(
+				ucId = save.id,
+				refreshToken = BCryptPasswordEncoder().encode(tokenPayload.toString()),
+				expiredIn = Date(System.currentTimeMillis() + appProperties.jwt.refresh)
+		))
+
+		when (userToken) {
+			null -> throw AppException("login failed")
+			else -> return AuthResponse(
+					accessToken = tokenPayload?.let { jwtUtils.generateToken(it) },
+					username = save.username,
+					email = save.email,
+					role = save.role,
+					refreshToken = userToken.refreshToken
+			)
+		}
 	}
 
 	private fun validatePreLogin(creds: UserCredential, req: LoginRequest) {
