@@ -7,7 +7,8 @@ import org.springframework.boot.context.properties.ConstructorBinding
 @ConfigurationProperties(prefix = "app")
 data class AppProperties(
 		val jwt: JwtProperties,
-		val security: SecurityProperties
+		val security: SecurityProperties,
+		val cloudinary: CloudinaryProperties
 )
 
 data class JwtProperties(
@@ -21,4 +22,10 @@ data class SecurityProperties(
 		var expiration: String,
 		var maxLoginAttemp: Int,
 		var hmacSecret: String
+)
+
+data class CloudinaryProperties(
+		var cloud_name: String,
+		var api_key: String,
+		var api_secret: String
 )

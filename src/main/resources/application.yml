@@ -51,6 +51,11 @@ app:
     maxLoginAttemp: 10
     hmacSecret: KvoiLoApRyPIgWRmDfiIQ3Gn9IYZJqhf
 
+  cloudinary:
+    cloud_name: momodding2
+    api_key: 577998485616956
+    api_secret: 6ABNR1e3vKrctpnDqPUTT1KL4uA
+
 logging:
   level:
     org:

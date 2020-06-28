@@ -2,9 +2,7 @@ package com.momodding.backend.config.graphql
 
 import com.momodding.backend.config.auth.TokenPayload
 import graphql.servlet.GraphQLContext
-import java.util.*
 import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 import javax.websocket.server.HandshakeRequest
 
 class AuthGraphQLContext : GraphQLContext {

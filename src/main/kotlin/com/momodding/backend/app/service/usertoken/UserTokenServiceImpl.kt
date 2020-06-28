@@ -24,8 +24,7 @@ class UserTokenServiceImpl @Autowired constructor(
         when (findRefreshToken) {
             null -> throw UnauthorizedException("token expired")
             else -> {
-                val user = userCredentialRepository.findById(findRefreshToken.get().ucId!!)
-                when (user) {
+                when (val user = userCredentialRepository.findById(findRefreshToken.get().ucId!!)) {
                     null -> throw DataNotFoundException("user not found")
                     else -> {
                         val tokenPayload = TokenPayload(
