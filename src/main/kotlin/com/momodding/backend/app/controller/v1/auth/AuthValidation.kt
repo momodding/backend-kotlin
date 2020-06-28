@@ -19,6 +19,6 @@ class AuthValidation @Autowired constructor(
 	fun validateRegister(request: RegisterRequest, errors: Errors) {
 		if (!request.email.isValidEmail()) errors.reject("email", "invalid email")
 
-		if (!request.role.equals(1L) || !request.role.equals(2L)) errors.reject("role", "invalid role")
+		if (!request.role.equals(1L) && !request.role.equals(2L)) errors.reject("role", "invalid role")
 	}
 }
