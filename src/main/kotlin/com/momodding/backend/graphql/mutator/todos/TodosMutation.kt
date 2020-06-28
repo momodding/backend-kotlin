@@ -3,11 +3,9 @@ package com.momodding.backend.graphql.mutator.todos
 import com.coxautodev.graphql.tools.GraphQLMutationResolver
 import com.momodding.backend.app.entity.Todos
 import com.momodding.backend.app.repository.TodosRepository
-import com.momodding.backend.config.auth.JwtUtils
 import com.momodding.backend.config.graphql.AuthGraphQLContext
 import com.momodding.backend.exception.DataNotFoundException
 import graphql.schema.DataFetchingEnvironment
-import graphql.servlet.GraphQLContext
 import org.springframework.stereotype.Component
 import java.util.*
 
