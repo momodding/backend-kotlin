@@ -1,0 +1,28 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="BackendApplicationKt" type="JetRunConfigurationType" nameIsGenerated="true">
+    <module name="demo" />
+    <option name="VM_PARAMETERS" value="" />
+    <option name="PROGRAM_PARAMETERS" value="" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <option name="ALTERNATIVE_JRE_PATH" value="12" />
+    <option name="PASS_PARENT_ENVS" value="true" />
+    <option name="MAIN_CLASS_NAME" value="com.momodding.backend.BackendApplicationKt" />
+    <option name="WORKING_DIRECTORY" value="" />
+    <envs>
+      <env name="APP_NAME" value="BACKEND" />
+      <env name="APP_ENV" value="local" />
+      <env name="PORT" value="9090" />
+      <env name="DB_HOST" value="us-cdbr-iron-east-01.cleardb.net" />
+      <env name="DB_PORT" value="3306" />
+      <env name="DB_USERNAME" value="b24d1d53402529" />
+      <env name="DB_PASSWORD" value="fda149c4" />
+      <env name="DB_NAME" value="heroku_53393dd9906f49d" />
+      <env name="CLOUDINARY_CLOUD_NAME" value="momodding2" />
+      <env name="CLOUDINARY_API_KEY" value="577998485616956" />
+      <env name="CLOUDINARY_API_SECRET" value="6ABNR1e3vKrctpnDqPUTT1KL4uA" />
+    </envs>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

@@ -25,9 +25,9 @@ spring:
 
   datasource:
     platform: mysql
-    url: jdbc:mariadb://${DB_HOST}:${DB_PORT}/${DB_NAME}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:todo}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
     hikari:
       minimumIdle: 1
       maximumPoolSize: 2
@@ -52,9 +52,9 @@ app:
     hmacSecret: KvoiLoApRyPIgWRmDfiIQ3Gn9IYZJqhf
 
   cloudinary:
-    cloud_name: momodding2
-    api_key: 577998485616956
-    api_secret: 6ABNR1e3vKrctpnDqPUTT1KL4uA
+    cloud_name: ${CLOUDINARY_CLOUD_NAME:lololol}
+    api_key: ${CLOUDINARY_API_KEY:123456789}
+    api_secret: ${CLOUDINARY_API_SECRET:lololol123}
 
 logging:
   level:
