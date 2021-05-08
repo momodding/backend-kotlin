@@ -42,9 +42,7 @@ graphql:
   servlet:
     mapping: /graphql
     enabled: true
-    corsEnabled: true
-    cors:
-      allowed-origins: *
+    corsEnabled: false
 
 app:
   jwt:
