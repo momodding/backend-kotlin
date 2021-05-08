@@ -38,6 +38,10 @@ springdoc:
   api-docs:
     path: /api-docs
 
+graphql:
+  servlet:
+    corsEnabled: true
+
 app:
   jwt:
     signingKey: c1834380e019897956cf9b6429d77a2f0cb102173d5d1ea40a21b390a65f18b5
