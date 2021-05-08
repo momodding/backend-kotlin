@@ -40,7 +40,11 @@ springdoc:
 
 graphql:
   servlet:
+    mapping: /graphql
+    enabled: true
     corsEnabled: true
+    cors:
+      allowed-origins: *
 
 app:
   jwt:
