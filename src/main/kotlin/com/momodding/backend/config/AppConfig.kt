@@ -1,12 +1,12 @@
 package com.momodding.backend.config
 
 import com.cloudinary.Cloudinary
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.momodding.backend.utils.AppProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import java.util.*
 
 
 @Configuration
@@ -17,6 +17,7 @@ class AppConfig constructor(
     @Bean
     fun objectMapper() = ObjectMapper().apply {
         registerModule(KotlinModule())
+        disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
     }
 
     @Bean

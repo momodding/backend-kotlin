@@ -40,7 +40,7 @@ springdoc:
 
 graphql:
   servlet:
-    mapping: /graphql
+    mapping: /graphqls
     enabled: true
     corsEnabled: false
 
