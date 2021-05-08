@@ -60,12 +60,6 @@ class WebSecurityConfig @Autowired constructor(
 			addAllowedHeader("*")
 			addAllowedMethod("*")
 			maxAge = 3600L
-//			allowedMethods = listOf(
-//					HttpMethod.GET.name,
-//					HttpMethod.HEAD.name,
-//					HttpMethod.POST.name,
-//					HttpMethod.PUT.name,
-//					HttpMethod.DELETE.name)
 		}
 		return UrlBasedCorsConfigurationSource().apply {
 			corsConfiguration = corsConfiguration
