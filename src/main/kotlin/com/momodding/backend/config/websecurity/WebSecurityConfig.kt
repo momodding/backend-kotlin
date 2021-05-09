@@ -39,8 +39,8 @@ class WebSecurityConfig @Autowired constructor(
 					.disable()
 
 			exceptionHandling()
-					.authenticationEntryPoint(jwtAuthEntrypoint)
-					.and()
+				.authenticationEntryPoint(jwtAuthEntrypoint)
+				.and()
 
 			sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -48,8 +48,8 @@ class WebSecurityConfig @Autowired constructor(
 			authorizeRequests()
 				.antMatchers(*whitelistEndpoint).permitAll()
 				.anyRequest().authenticated()
-				.and()
-				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
+
+			addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
 		}
 	}
 
