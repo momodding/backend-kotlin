@@ -23,20 +23,23 @@ class JwtAuthFilter @Autowired constructor(
 
 	override fun doFilterInternal(req: HttpServletRequest, res: HttpServletResponse, chain: FilterChain) {
 		val accessToken = req.getHeader("X-Token-Auth")
-		var email: String? = null
+		val email: String?
 
 		if (!accessToken.isNullOrBlank()) {
 			try {
 				email = jwtUtils.getEmailFromToken(accessToken)
 			} catch (e: IllegalArgumentException) {
+				e.printStackTrace()
 				logger.error("an error occured during getting credential from token")
 //				throw UnauthorizedException("an error occured during getting credential from token")
 				return
 			} catch (e: ExpiredJwtException) {
+				e.printStackTrace()
 				logger.error("the token is expired and not valid anymore")
 //				throw UnauthorizedException("the token is expired and not valid anymore")
 				return
 			} catch (e: SignatureException) {
+				e.printStackTrace()
 				logger.error("Authentication Failed. Username or Password not valid.")
 //				throw UnauthorizedException("Authentication Failed. Username or Password not valid.")
 				return
