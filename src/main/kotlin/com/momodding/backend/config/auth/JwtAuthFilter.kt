@@ -31,20 +31,16 @@ class JwtAuthFilter @Autowired constructor(
 			} catch (e: IllegalArgumentException) {
 				logger.error("an error occured during getting credential from token")
 //				throw UnauthorizedException("an error occured during getting credential from token")
-				return
 			} catch (e: ExpiredJwtException) {
 				logger.error("the token is expired and not valid anymore")
 //				throw UnauthorizedException("the token is expired and not valid anymore")
-				return
 			} catch (e: SignatureException) {
 				logger.error("Authentication Failed. Username or Password not valid.")
 //				throw UnauthorizedException("Authentication Failed. Username or Password not valid.")
-				return
 			}
 		} else {
 			logger.error("Authentication Failed. Username or Password not valid.")
 //			throw UnauthorizedException("Authentication Failed. Username or Password not valid.")
-			return
 		}
 
 		if (!email.isNullOrBlank()) {
@@ -58,7 +54,6 @@ class JwtAuthFilter @Autowired constructor(
 				logger.error("Authentication Failed. Username or Password not valid.")
 				SecurityContextHolder.getContext().authentication = authentication
 //				throw UnauthorizedException("Authentication Failed. Username or Password not valid.")
-				return
 			}
 		}
 
