@@ -59,14 +59,6 @@ class JwtAuthFilter @Autowired constructor(
                     writer.write(jacksonObjectMapper().writeValueAsString(result))
                 }
             }
-        } else {
-            logger.error("Authentication Failed. Username or Password not valid.")
-            with(res) {
-                status = HttpStatus.SC_UNAUTHORIZED
-                contentType = MediaType.APPLICATION_JSON_VALUE
-                characterEncoding = "UTF-8"
-                writer.write(jacksonObjectMapper().writeValueAsString(result))
-            }
         }
 
         val creds = email?.let { userCredentialService.findUserByEmail(it) }
