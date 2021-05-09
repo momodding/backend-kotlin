@@ -58,7 +58,6 @@ class JwtAuthFilter @Autowired constructor(
 				logger.error("Authentication Failed. Username or Password not valid.")
 				SecurityContextHolder.getContext().authentication = authentication
 //				throw UnauthorizedException("Authentication Failed. Username or Password not valid.")
-				return
 			}
 		}
 
