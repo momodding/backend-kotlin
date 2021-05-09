@@ -58,25 +58,27 @@ class JwtAuthFilter @Autowired constructor(
                     characterEncoding = "UTF-8"
                     writer.write(jacksonObjectMapper().writeValueAsString(result))
                 }
+                return
             }
-        }
 
-        val creds = email?.let { userCredentialService.findUserByEmail(it) }
-        if (Optional.ofNullable(creds).isPresent) {
-            val authentication = UsernamePasswordAuthenticationToken(
-                userCredentialService,
-                null, mutableListOf(SimpleGrantedAuthority(creds?.role.toString()))
-            )
-            authentication.details = WebAuthenticationDetailsSource().buildDetails(req)
-            SecurityContextHolder.getContext().authentication = authentication
-            logger.error("Authentication success")
-        } else {
-            logger.error("Authentication failed")
-            with(res) {
-                status = HttpStatus.SC_UNAUTHORIZED
-                contentType = MediaType.APPLICATION_JSON_VALUE
-                characterEncoding = "UTF-8"
-                writer.write(jacksonObjectMapper().writeValueAsString(result))
+            val creds = email?.let { userCredentialService.findUserByEmail(it) }
+            if (Optional.ofNullable(creds).isPresent) {
+                val authentication = UsernamePasswordAuthenticationToken(
+                    userCredentialService,
+                    null, mutableListOf(SimpleGrantedAuthority(creds?.role.toString()))
+                )
+                authentication.details = WebAuthenticationDetailsSource().buildDetails(req)
+                SecurityContextHolder.getContext().authentication = authentication
+                logger.error("Authentication success")
+            } else {
+                logger.error("Authentication failed")
+                with(res) {
+                    status = HttpStatus.SC_UNAUTHORIZED
+                    contentType = MediaType.APPLICATION_JSON_VALUE
+                    characterEncoding = "UTF-8"
+                    writer.write(jacksonObjectMapper().writeValueAsString(result))
+                }
+                return
             }
         }
 
