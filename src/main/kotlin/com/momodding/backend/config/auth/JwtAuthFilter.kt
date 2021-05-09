@@ -30,16 +30,16 @@ class JwtAuthFilter @Autowired constructor(
     @Throws(UnauthorizedException::class)
     override fun doFilterInternal(req: HttpServletRequest, res: HttpServletResponse, chain: FilterChain) {
         val accessToken = req.getHeader("X-Token-Auth")
-        var email: String? = null
-        val result = ResultResponse<Any>(
-            status = "ERROR",
-            meta = MetaResponse(
-                code = HttpStatus.SC_UNAUTHORIZED,
-                message = "Unauthorized action"
-            )
-        )
 
         if (!accessToken.isNullOrBlank()) {
+            val email: String?
+            val result = ResultResponse<Any>(
+                status = "ERROR",
+                meta = MetaResponse(
+                    code = HttpStatus.SC_UNAUTHORIZED,
+                    message = "Unauthorized action"
+                )
+            )
             try {
                 email = jwtUtils.getEmailFromToken(accessToken)
             } catch (e: Exception) {
