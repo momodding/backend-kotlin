@@ -48,8 +48,8 @@ class WebSecurityConfig @Autowired constructor(
 			authorizeRequests()
 				.antMatchers(*whitelistEndpoint).permitAll()
 				.anyRequest().authenticated()
-
-			addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
+				.and()
+				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
 		}
 	}
 
