@@ -1,7 +1,6 @@
 package com.momodding.backend.config.auth
 
 import com.momodding.backend.app.service.usercredential.UserCredentialService
-import com.momodding.backend.exception.UnauthorizedException
 import io.jsonwebtoken.ExpiredJwtException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
@@ -22,7 +21,6 @@ class JwtAuthFilter @Autowired constructor(
 		val jwtUtils: JwtUtils
 ) : OncePerRequestFilter() {
 
-	@Throws(UnauthorizedException::class)
 	override fun doFilterInternal(req: HttpServletRequest, res: HttpServletResponse, chain: FilterChain) {
 		val accessToken = req.getHeader("X-Token-Auth")
 		var email: String? = null
@@ -32,17 +30,17 @@ class JwtAuthFilter @Autowired constructor(
 				email = jwtUtils.getEmailFromToken(accessToken)
 			} catch (e: IllegalArgumentException) {
 				logger.error("an error occured during getting credential from token")
-				throw UnauthorizedException("an error occured during getting credential from token")
+//				throw UnauthorizedException("an error occured during getting credential from token")
 			} catch (e: ExpiredJwtException) {
 				logger.error("the token is expired and not valid anymore")
-				throw UnauthorizedException("the token is expired and not valid anymore")
+//				throw UnauthorizedException("the token is expired and not valid anymore")
 			} catch (e: SignatureException) {
 				logger.error("Authentication Failed. Username or Password not valid.")
-				throw UnauthorizedException("Authentication Failed. Username or Password not valid.")
+//				throw UnauthorizedException("Authentication Failed. Username or Password not valid.")
 			}
 		} else {
 			logger.error("Authentication Failed. Username or Password not valid.")
-			throw UnauthorizedException("Authentication Failed. Username or Password not valid.")
+//			throw UnauthorizedException("Authentication Failed. Username or Password not valid.")
 		}
 
 		if (!email.isNullOrBlank()) {
@@ -55,7 +53,7 @@ class JwtAuthFilter @Autowired constructor(
 				authentication.details = WebAuthenticationDetailsSource().buildDetails(req)
 				logger.error("Authentication Failed. Username or Password not valid.")
 				SecurityContextHolder.getContext().authentication = authentication
-				throw UnauthorizedException("Authentication Failed. Username or Password not valid.")
+//				throw UnauthorizedException("Authentication Failed. Username or Password not valid.")
 			}
 		}
 
