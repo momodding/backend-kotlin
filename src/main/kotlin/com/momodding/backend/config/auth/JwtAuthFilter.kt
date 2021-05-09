@@ -50,8 +50,8 @@ class JwtAuthFilter @Autowired constructor(
 					null, mutableListOf(SimpleGrantedAuthority(creds?.role.toString()))
 				)
 				authentication.details = WebAuthenticationDetailsSource().buildDetails(req)
-				logger.error("Authentication Failed. Username or Password not valid.")
 				SecurityContextHolder.getContext().authentication = authentication
+				logger.error("Authentication success")
 			}
 		}
 
