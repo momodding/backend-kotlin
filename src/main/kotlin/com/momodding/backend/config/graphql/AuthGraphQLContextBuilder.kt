@@ -2,7 +2,7 @@ package com.momodding.backend.config.graphql
 
 import com.momodding.backend.config.auth.JwtUtils
 import com.momodding.backend.config.auth.toObject
-import com.momodding.backend.exception.UnauthorizedException
+import com.momodding.backend.graphql.exception.UnauthorizeException
 import graphql.servlet.GraphQLContext
 import graphql.servlet.GraphQLContextBuilder
 import org.springframework.stereotype.Component
@@ -16,8 +16,8 @@ class AuthGraphQLContextBuilder(
 
 	override fun build(request: HttpServletRequest?): AuthGraphQLContext? {
 		val req = request?.getHeader("X-Token-Auth")
-		when(req) {
-			null -> throw UnauthorizedException("todos")
+		when (req) {
+			null -> throw UnauthorizeException("graphqls")
 		}
 		return req?.let { it -> jwtUtils.getAllClaimFromToken(it)?.toObject()?.let { AuthGraphQLContext(it, request) } }
 	}
