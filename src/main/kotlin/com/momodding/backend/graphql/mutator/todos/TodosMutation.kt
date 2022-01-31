@@ -6,22 +6,23 @@ import com.momodding.backend.app.repository.TodosRepository
 import com.momodding.backend.config.graphql.AuthGraphQLContext
 import com.momodding.backend.exception.DataNotFoundException
 import graphql.schema.DataFetchingEnvironment
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.util.*
 
 @Component
-class TodosMutation constructor(
-		val todosRepository: TodosRepository
+class TodosMutation @Autowired constructor(
+    private val todosRepository: TodosRepository
 ) : GraphQLMutationResolver {
-	fun newTodo(name: String, description: String, env: DataFetchingEnvironment) : Todos {
-		val ctx = env.getContext<AuthGraphQLContext>()
-		val data = Todos(
-				name = name,
-				description = description,
-				ucId = ctx.getTokenPayload().ucId
-		)
+    fun newTodo(name: String, description: String, env: DataFetchingEnvironment): Todos {
+        val ctx = env.getContext<AuthGraphQLContext>()
+        val data = Todos(
+            name = name,
+            description = description,
+            ucId = ctx.getTokenPayload().ucId
+        )
 
-		return todosRepository.saveAndFlush(data)
+        return todosRepository.saveAndFlush(data)
 	}
 	fun updateTodo(id: Long, name: String, description: String) : Todos {
 		val data = todosRepository.findById(id).orElseThrow { throw DataNotFoundException("todos") }

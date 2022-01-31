@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
@@ -22,13 +21,7 @@ class WebSecurityConfig @Autowired constructor(
 ) : WebSecurityConfigurerAdapter() {
 
 	private val whitelistEndpoint = arrayOf(
-			"/v1/auth/**",
-			"/actuator/**",
-			"/api-ui/**",
-			"/api-docs/**",
-			"/graphiql**",
-			"/graphql**",
-			"/vendor/**"
+			"/**"
 	)
 
 	override fun configure(http: HttpSecurity) {
@@ -49,7 +42,7 @@ class WebSecurityConfig @Autowired constructor(
 				.antMatchers(*whitelistEndpoint).permitAll()
 				.anyRequest().authenticated()
 
-			addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
+//			addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter::class.java)
 		}
 	}
 

@@ -27,7 +27,6 @@ class AuthController @Autowired constructor(
 
 	@PostMapping("login")
 	fun login (@Valid @RequestBody req: LoginRequest, error: Errors) : ResponseEntity<ResultResponse<Any>> {
-//		System.out.println(applicationContext.environment.getProperty("DB_HOST"))
 		authValidation.validateLogin(req, error)
 		if (error.hasErrors()) throw FormValidationException(error.generateResponse())
 		return generateResponse(userCredentialService.doLogin(req)).done("Login sukses")

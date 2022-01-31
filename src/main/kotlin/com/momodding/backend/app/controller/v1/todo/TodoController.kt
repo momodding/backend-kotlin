@@ -2,6 +2,7 @@ package com.momodding.backend.app.controller.v1.todo
 
 import com.momodding.backend.app.dto.request.TodoRequest
 import com.momodding.backend.app.service.todos.TodosService
+import com.momodding.backend.config.annotation.TokenSecurity
 import com.momodding.backend.exception.AppException
 import com.momodding.backend.exception.FormValidationException
 import com.momodding.backend.utils.generateResponse
@@ -16,11 +17,12 @@ import org.springframework.web.bind.annotation.*
 import javax.servlet.http.HttpServletRequest
 import javax.validation.Valid
 
+@TokenSecurity
 @RestController
 @RequestMapping(value = ["v1/todo"], produces = [MediaType.APPLICATION_JSON_VALUE])
 class TodoController @Autowired constructor(
-		val todoValidation: TodoValidation,
-		val todosService: TodosService
+	val todoValidation: TodoValidation,
+	val todosService: TodosService
 ) : BaseController() {
 
 	@GetMapping
