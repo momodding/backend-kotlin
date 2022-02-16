@@ -5,6 +5,8 @@ import com.momodding.backend.app.entity.Todos
 import com.momodding.backend.app.repository.TodosRepository
 import com.momodding.backend.config.auth.JwtUtils
 import com.momodding.backend.exception.DataNotFoundException
+import com.momodding.backend.sample.model.db.heroku_53393dd9906f49d.Tables
+import org.jooq.DSLContext
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
@@ -13,11 +15,20 @@ import javax.transaction.Transactional
 
 @Service
 class TodosServiceImpl @Autowired constructor(
-		val todosRepository: TodosRepository,
-		val jwtUtils: JwtUtils
+	val todosRepository: TodosRepository,
+	val jwtUtils: JwtUtils,
+	private val dslContext: DSLContext
 ) : TodosService {
+
 	override fun findAll(): List<Todos> {
-		return todosRepository.findAll()
+		return dslContext.selectFrom(Tables.USER_TODO).fetch()
+			.map {
+				Todos(
+					id = it.utId.toLong(),
+					name = it.utTaskName,
+					description = it.utTaskDescription
+				)
+			}
 	}
 
 	override fun findById(id: Long): Todos {

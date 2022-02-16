@@ -7,11 +7,13 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.momodding.backend.utils.AppProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import javax.sql.DataSource
 
 
 @Configuration
 class AppConfig constructor(
-        val appProperties: AppProperties
+    private val appProperties: AppProperties,
+    private val dataSource: DataSource
 ) {
 
     @Bean
@@ -30,4 +32,16 @@ class AppConfig constructor(
         cloudinary = Cloudinary(config)
         return cloudinary
     }
+
+//    @Bean
+//    fun connectionProvider() = DataSourceConnectionProvider(TransactionAwareDataSourceProxy(dataSource))
+//
+//    @Bean
+//    fun dsl() = DefaultDSLContext(configuration())
+//
+//    fun configuration() = DefaultConfiguration().apply {
+//        set(connectionProvider())
+//        set(DefaultExecuteListenerProvider(JooqExceptionTranslator()))
+//        set(SQLDialect.MARIADB)
+//    }
 }

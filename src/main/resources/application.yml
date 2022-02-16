@@ -14,6 +14,9 @@ spring:
     deserialization:
       fail-on-unknown-properties: false
 
+  jooq:
+    sql-dialect: mariadb
+
   jpa:
     properties:
       hibernate:
@@ -31,6 +34,7 @@ spring:
     hikari:
       minimumIdle: 1
       maximumPoolSize: 2
+    driver-class-name: org.mariadb.jdbc.Driver
 
 springdoc:
   swagger-ui:
